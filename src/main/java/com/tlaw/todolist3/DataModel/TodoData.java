@@ -26,6 +26,9 @@ public class TodoData {
       private TodoData() {
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
       }
+      public void addTodoItem(TodoItem item){
+            todoItems.add(item);
+      }
 
       public List<TodoItem> getTodoItems() {
             return todoItems;
@@ -85,11 +88,6 @@ public class TodoData {
             }
 
 
-
-
-
-
-
-
       }
+
 }
