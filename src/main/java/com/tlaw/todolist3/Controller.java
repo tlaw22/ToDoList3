@@ -53,6 +53,8 @@ public class Controller {
       public void showNewItemDialog() {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.initOwner(mainBorderPane.getScene().getWindow());
+            dialog.setTitle("Add to database - Dialog");
+            dialog.setHeaderText("Add a new log entry");
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("todoitemDialog.fxml"));
             try {
@@ -69,7 +71,9 @@ public class Controller {
             if(result.isPresent() && result.get() == ButtonType.OK){
                   System.out.println("Ok pressed");
                   DialogController controller = fxmlLoader.getController();
-                  controller.processResults();
+                  TodoItem newItem = controller.processResults();
+                  todoListView.getItems().setAll(TodoData.getInstance().getTodoItems());
+                  todoListView.getSelectionModel().select(newItem);
             } else {
                   System.out.println("Cancel pressed");
             }
