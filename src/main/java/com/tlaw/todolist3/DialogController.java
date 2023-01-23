@@ -28,7 +28,6 @@ public class DialogController {
             LocalDate deadlineValue = deadlinePicker.getValue();
 
             TodoItem newItem = new TodoItem(shortDescription, details, deadlineValue);
-            TodoData.getInstance().addTodoItem(new TodoItem(shortDescription, details, deadlineValue));
             TodoData.getInstance().addTodoItem(newItem);
             return newItem;
       }

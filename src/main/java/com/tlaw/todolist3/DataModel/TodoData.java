@@ -1,6 +1,8 @@
 package com.tlaw.todolist3.DataModel;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,26 +18,27 @@ public class TodoData {
       private static TodoData instance = new TodoData();
       private static String filename = "TodoListItems.txt";
 
-      private List<TodoItem> todoItems;
+      private ObservableList<TodoItem> todoItems;
       private DateTimeFormatter formatter;
+
+      private TodoData() {
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+      }
 
       public static TodoData getInstance() {
             return instance;
       }
 
-      private TodoData() {
-            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-      }
-      public void addTodoItem(TodoItem item){
+      public void addTodoItem(TodoItem item) {
             todoItems.add(item);
       }
 
-      public List<TodoItem> getTodoItems() {
+      public ObservableList<TodoItem> getTodoItems() {
             return todoItems;
       }
 
       public void setTodoItems(List<TodoItem> todoItems) {
-            this.todoItems = todoItems;
+             this.todoItems = (ObservableList<TodoItem>) todoItems;
       }
 
       public void loadTodoItems() throws IOException {
@@ -60,7 +63,7 @@ public class TodoData {
                   }
 
             } finally {
-                  if(br != null) {
+                  if (br != null) {
                         br.close();
                   }
             }
@@ -72,7 +75,7 @@ public class TodoData {
             BufferedWriter bw = Files.newBufferedWriter(path);
             try {
                   Iterator<TodoItem> iter = todoItems.iterator();
-                  while(iter.hasNext()) {
+                  while (iter.hasNext()) {
                         TodoItem item = iter.next();
                         bw.write(String.format("%s\t%S\t%s",
                               item.getShortDescription(),
@@ -82,12 +85,16 @@ public class TodoData {
                   }
 
             } finally {
-                  if(bw != null) {
+                  if (bw != null) {
                         bw.close();
                   }
             }
 
 
+      }
+
+      public void deleteTodoItem(TodoItem item){
+            todoItems.remove(item);
       }
 
 }
