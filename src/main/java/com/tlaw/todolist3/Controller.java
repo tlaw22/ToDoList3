@@ -4,6 +4,8 @@ import com.tlaw.todolist3.DataModel.TodoData;
 import com.tlaw.todolist3.DataModel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,8 +20,10 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Controller {
 
@@ -38,6 +42,12 @@ public class Controller {
       private BorderPane mainBorderPane;
       @FXML
       private ContextMenu listContextMenu;
+      @FXML
+      private ToggleButton filterToggleButton;
+      private FilteredList<TodoItem> filteredList;
+
+      private Predicate<TodoItem> wantAllItems;
+      private Predicate<TodoItem> wantTodaysItems;
 
       public void initialize() {
       listContextMenu = new ContextMenu();
@@ -66,7 +76,17 @@ listContextMenu.getItems().addAll(deleteMenuItem);
                   }
             });
 
-            todoListView.setItems(TodoData.getInstance().getTodoItems());
+            // Begin sorted list
+            SortedList<TodoItem> sortedList = new SortedList<TodoItem>(TodoData.getInstance().getTodoItems(),
+                    new Comparator<TodoItem>() {
+                          @Override
+                          public int compare(TodoItem o1, TodoItem o2) {
+                                return o1.getDeadline().compareTo(o2.getDeadline());
+                          }
+                    });
+
+//            todoListView.setItems(TodoData.getInstance().getTodoItems());
+            todoListView.setItems(sortedList);
             todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             todoListView.getSelectionModel().selectFirst();
             todoListView.setCellFactory(new Callback<ListView<TodoItem>, ListCell<TodoItem>>() {
@@ -160,4 +180,6 @@ listContextMenu.getItems().addAll(deleteMenuItem);
                   TodoData.getInstance().deleteTodoItem(item);
             }
       }
+// Could not add the sorting method. Pick this section back up late.
+
 }
