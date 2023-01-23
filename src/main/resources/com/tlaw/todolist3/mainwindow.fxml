@@ -31,6 +31,9 @@
                     <Button text="New" onAction="#showNewItemDialog">
 
                     </Button>
+                    <Button text="Close" onAction="#showNewItemDialog">
+
+                    </Button>
                 </HBox>
             </ToolBar>
         </VBox>
@@ -42,7 +45,7 @@
     </left>
     <center>
         <VBox style="-fx-background-color: white">
-            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
+            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true" editable="false"/>
             <HBox>
                 <Label text="Due: " style="-fx-background-color: white">
                     <font>
